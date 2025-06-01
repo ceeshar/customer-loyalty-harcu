@@ -4,7 +4,8 @@ A blockchain-based customer loyalty program built on Stellar Soroban, featuring 
 
 <em>This project is a work in progress, please don't be shy on reaching out, all pull requests are welcome!</em>
 
-![ChatGPT Image 1 Haz 2025 17_42_00](https://github.com/user-attachments/assets/875dba4d-d6ba-465b-ab6b-dc56f5ef2788)
+
+![ChatGPT Image 1 Haz 2025 17_55_02](https://github.com/user-attachments/assets/3e3aa13f-d6e7-4cd4-8342-83ae0b03c696)
 
 
 
