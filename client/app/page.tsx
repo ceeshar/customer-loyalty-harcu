@@ -82,40 +82,49 @@ export default function LoyaltyApp() {
       }
 
       try {
-        // Get account to use as source
-        const account = await server.getAccount(address);
-        
         // Create the contract instance
         const contract = new Contract(contractId);
         
-        // Call the get_balance function
-        const tx = new TransactionBuilder(account, {
+        // Build the operation to call get_balance with user address
+        const operation = contract.call(
+          'get_balance',
+          xdr.ScVal.scvAddress(Address.fromString(address).toScAddress())
+        );
+        
+        // Create a transaction with a dummy source account (for simulation)
+        const sourceAccount = new Account(
+          "GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWHF",
+          "0"
+        );
+        
+        const tx = new TransactionBuilder(sourceAccount, {
           fee: BASE_FEE,
           networkPassphrase: Networks.TESTNET
         })
-          .addOperation(
-            contract.call('get_balance', xdr.ScVal.scvAddress(Address.fromString(address).toScAddress()))
-          )
+          .addOperation(operation)
           .setTimeout(30)
           .build();
         
         // Simulate the transaction
         const simulated = await server.simulateTransaction(tx);
+        console.log("Simulation result:", simulated);
         
-        if (rpc.Api.isSimulationSuccess(simulated)) {
-          const result = simulated.result?.retval;
+        if (rpc.Api.isSimulationSuccess(simulated) && simulated.result) {
+          const result = simulated.result.retval;
           if (result) {
             const balanceVal = scValToNative(result);
+            console.log("Balance value:", balanceVal);
             setBalance(Number(balanceVal) || 0);
           } else {
+            console.log("No return value from simulation");
             setBalance(0);
           }
         } else {
-          console.log("Simulation failed");
+          console.log("Simulation failed or no result");
           setBalance(0);
         }
       } catch (err) {
-        console.log("Balance fetch error:", err);
+        console.error("Balance fetch error:", err);
         setBalance(0);
       }
     } catch (error) {
@@ -232,13 +241,22 @@ export default function LoyaltyApp() {
                 <h2 className="text-2xl font-semibold mb-2">Sadakat Puanınız</h2>
                 <div className="text-5xl font-bold mb-4">{balance}</div>
                 <p className="text-lg opacity-90">TRY Sabit Koin</p>
-                <button
-                  onClick={handleEarnPoints}
-                  disabled={loading}
-                  className="mt-4 bg-white text-blue-600 hover:bg-gray-100 disabled:bg-gray-200 font-bold py-2 px-4 rounded-lg transition-colors"
-                >
-                  {loading ? "İşleniyor..." : "Puan Kazan"}
-                </button>
+                <div className="flex gap-4 justify-center mt-4">
+                  <button
+                    onClick={handleEarnPoints}
+                    disabled={loading}
+                    className="bg-white text-blue-600 hover:bg-gray-100 disabled:bg-gray-200 font-bold py-2 px-4 rounded-lg transition-colors"
+                  >
+                    {loading ? "İşleniyor..." : "Puan Kazan"}
+                  </button>
+                  <button
+                    onClick={() => fetchBalance(publicKey!)}
+                    disabled={loading}
+                    className="bg-white text-blue-600 hover:bg-gray-100 disabled:bg-gray-200 font-bold py-2 px-4 rounded-lg transition-colors"
+                  >
+                    🔄 Yenile
+                  </button>
+                </div>
               </div>
 
               {/* Durum Mesajı */}
