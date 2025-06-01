@@ -1,6 +1,8 @@
-# Stellar Loyalty Program 🌟
+# Loyalty Program HARCU 🌟
 
-A blockchain-based customer loyalty program built on Stellar Soroban, featuring a modern React/Next.js frontend.
+A blockchain-based customer loyalty program built on Stellar Soroban, featuring a modern React/Next.js frontend, and Rust on the contract side.
+
+This project is WIP
 
 ## 🚀 Features
 
