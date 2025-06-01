@@ -6,7 +6,7 @@ A blockchain-based customer loyalty program built on Stellar Soroban, featuring 
 
 https://github.com/user-attachments/assets/3e3aa13f-d6e7-4cd4-8342-83ae0b03c696
 
-[<img src="[image.png](https://github.com/user-attachments/assets/3e3aa13f-d6e7-4cd4-8342-83ae0b03c696)" width="250"/>]([image.png](https://github.com/user-attachments/assets/3e3aa13f-d6e7-4cd4-8342-83ae0b03c696))
+[<img src="[image.png](https://github.com/user-attachments/assets/3e3aa13f-d6e7-4cd4-8342-83ae0b03c696)" width="250" height="250"/>]([image.png](https://github.com/user-attachments/assets/3e3aa13f-d6e7-4cd4-8342-83ae0b03c696))
 
 
 ## 🚀 Features
