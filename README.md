@@ -1,11 +1,12 @@
 # Customer Loyalty Program HARCU 🌟
 
+![ChatGPT Image 1 Haz 2025 17_55_02 (2)](https://github.com/user-attachments/assets/019ef150-a98b-4db4-bea4-056fd8745716)
+
+
+
 A blockchain-based customer loyalty program built on Stellar Soroban, featuring a modern React/Next.js frontend, and Rust on the contract side.
 
 <em>This project is a work in progress, please don't be shy on reaching out, all pull requests are welcome!</em>
-
-![ChatGPT Image 1 Haz 2025 17_55_02 (1)](https://github.com/user-attachments/assets/7d52f04a-87ce-4ecb-832f-a841e65d2f73)
-
 
 
 ## 🚀 Features
