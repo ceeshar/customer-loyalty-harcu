@@ -1,6 +1,7 @@
 # Customer Loyalty Program HARCU 🌟
 
-![ChatGPT Image 1 Haz 2025 17_55_02 (2)](https://github.com/user-attachments/assets/019ef150-a98b-4db4-bea4-056fd8745716)
+
+![dsadasd-01](https://github.com/user-attachments/assets/cf0369e2-4615-4d5e-a93c-a2702fad0e1a)
 
 
 
