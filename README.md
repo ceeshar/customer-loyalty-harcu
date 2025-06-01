@@ -2,7 +2,7 @@
 
 A blockchain-based customer loyalty program built on Stellar Soroban, featuring a modern React/Next.js frontend, and Rust on the contract side.
 
-<small><em>This project is a work in progress, please don't be shy on reaching out, all pull requests are welcome!</em></small>
+<span style="font-size: 12px;"><em>This project is a work in progress, please don't be shy on reaching out, all pull requests are welcome!</em></span>
 
 
 
