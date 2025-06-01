@@ -1,7 +1,18 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import freighterApi from "@stellar/freighter-api";
-import * as StellarSdk from "@stellar/stellar-sdk";
+import { 
+  rpc,
+  TransactionBuilder,
+  Account,
+  Contract,
+  xdr,
+  scValToNative,
+  Operation,
+  BASE_FEE,
+  Networks,
+  Address
+} from "@stellar/stellar-sdk";
 
 interface Reward {
   id: number;
@@ -58,19 +69,62 @@ export default function LoyaltyApp() {
     }
   };
 
-  // Bakiye sorgulama (demo için sabit değer, gerçekte akıllı sözleşmeden gelecek)
+  // Bakiye sorgulama (gerçek akıllı sözleşmeden)
   const fetchBalance = async (address: string) => {
     try {
-      // Bu kısım gerçek Soroban sözleşmesi ile entegre edilecek
-      // Şimdilik demo için rastgele bir değer atıyoruz
-      const demoBalance = Math.floor(Math.random() * 1000) + 100;
-      setBalance(demoBalance);
+      const server = new rpc.Server(process.env.NEXT_PUBLIC_SOROBAN_RPC_URL || 'https://soroban-testnet.stellar.org');
+      const contractId = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
+      
+      if (!contractId) {
+        console.error("Contract ID not found");
+        setBalance(0);
+        return;
+      }
+
+      try {
+        // Get account to use as source
+        const account = await server.getAccount(address);
+        
+        // Create the contract instance
+        const contract = new Contract(contractId);
+        
+        // Call the get_balance function
+        const tx = new TransactionBuilder(account, {
+          fee: BASE_FEE,
+          networkPassphrase: Networks.TESTNET
+        })
+          .addOperation(
+            contract.call('get_balance', xdr.ScVal.scvAddress(Address.fromString(address).toScAddress()))
+          )
+          .setTimeout(30)
+          .build();
+        
+        // Simulate the transaction
+        const simulated = await server.simulateTransaction(tx);
+        
+        if (rpc.Api.isSimulationSuccess(simulated)) {
+          const result = simulated.result?.retval;
+          if (result) {
+            const balanceVal = scValToNative(result);
+            setBalance(Number(balanceVal) || 0);
+          } else {
+            setBalance(0);
+          }
+        } else {
+          console.log("Simulation failed");
+          setBalance(0);
+        }
+      } catch (err) {
+        console.log("Balance fetch error:", err);
+        setBalance(0);
+      }
     } catch (error) {
       console.error("Bakiye alma hatası:", error);
+      setBalance(0);
     }
   };
 
-  // Puan kazandırma (demo işlemi)
+  // Puan kazandırma (demo için simüle edilmiş)
   const handleEarnPoints = async () => {
     if (!publicKey) return;
     
@@ -78,10 +132,9 @@ export default function LoyaltyApp() {
       setLoading(true);
       setTransactionStatus("Puan kazandırılıyor...");
       
-      // Demo için rastgele puan ekleme
-      const earnedPoints = Math.floor(Math.random() * 50) + 10;
-      setBalance(prev => prev + earnedPoints);
-      setTransactionStatus(`${earnedPoints} puan kazandınız!`);
+      // For demo purposes, let's just add points locally
+      setBalance(prev => prev + 50);
+      setTransactionStatus("50 puan kazandınız!");
       
       setTimeout(() => setTransactionStatus(""), 3000);
     } catch (error) {
@@ -184,7 +237,7 @@ export default function LoyaltyApp() {
                   disabled={loading}
                   className="mt-4 bg-white text-blue-600 hover:bg-gray-100 disabled:bg-gray-200 font-bold py-2 px-4 rounded-lg transition-colors"
                 >
-                  {loading ? "İşleniyor..." : "Demo: Puan Kazan"}
+                  {loading ? "İşleniyor..." : "Puan Kazan"}
                 </button>
               </div>
 

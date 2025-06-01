@@ -1,0 +1,17 @@
+{
+  "networks": {
+    "testnet": {
+      "rpc": "https://soroban-testnet.stellar.org",
+      "network_passphrase": "Test SDF Network ; September 2015",
+      "friendbot": "https://friendbot.stellar.org/"
+    },
+    "mainnet": {
+      "rpc": "https://soroban-rpc.mainnet.stellar.org",
+      "network_passphrase": "Public Global Stellar Network ; September 2015"
+    }
+  },
+  "contract": {
+    "name": "loyalty-contract",
+    "wasm_path": "./target/wasm32-unknown-unknown/release/loyalty_contract.wasm"
+  }
+} 
